@@ -1,0 +1,3 @@
+C:/Users/s25380546/Desktop/mp2-lab2-matrix/build/CMakeFiles/Matrix.dir
+C:/Users/s25380546/Desktop/mp2-lab2-matrix/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/s25380546/Desktop/mp2-lab2-matrix/build/CMakeFiles/ZERO_CHECK.dir

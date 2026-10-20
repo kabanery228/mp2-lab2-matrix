@@ -84,9 +84,13 @@ public:
   // индексация с контролем
   T& at(size_t ind)
   {
+      if (ind >= sz || ind < 0) throw out_of_range("Index must be greater than zero and lowwer than vector size");
+      return pMem[ind];
   }
   const T& at(size_t ind) const
   {
+      if (ind >= sz || ind < 0) throw out_of_range("Index must be greater than zero and lowwer than vector size");
+      return pMem[ind];
   }
 
   // сравнение
@@ -196,35 +200,68 @@ public:
   // сравнение
   bool operator==(const TDynamicMatrix& m) const noexcept
   {
+      for (int i = 0; i < sz;i++)
+          if (pMem[i] != m[i]) return false;
+      return true;
   }
 
   // матрично-скалярные операции
   TDynamicMatrix operator*(const T& val)
   {
+      TDynamicMatrix<T> tmp(sz);
+      for (int i = 0;i < sz;++i)
+          tmp[i] = (*this)[i] * val;
+      return tmp;
   }
 
   // матрично-векторные операции
   TDynamicVector<T> operator*(const TDynamicVector<T>& v)
   {
+      TDynamicVector<T> tmp(sz);
+      for (int i = 0;i < sz;++i) 
+          tmp[i] = (*this)[i] * v;
+      return tmp;
   }
 
   // матрично-матричные операции
   TDynamicMatrix operator+(const TDynamicMatrix& m)
   {
+      TDynamicMatrix<T> tmp(sz);
+      for (int i = 0;i < sz;++i)
+          tmp[i] = (*this)[i] + m[i];
+      return tmp;
   }
   TDynamicMatrix operator-(const TDynamicMatrix& m)
   {
+      TDynamicMatrix<T> tmp(sz);
+      for (int i = 0;i < sz;++i)
+          tmp[i] = (*this)[i] - m[i];
+      return tmp;
   }
   TDynamicMatrix operator*(const TDynamicMatrix& m)
   {
+      TDynamicMatrix<T> tmp(sz);
+      for (int i = 0;i < sz;++i) 
+          for (int j = 0;j < sz;++j) 
+              for (int k = 0;k < sz;++k) 
+                  tmp[i][j] += (*this)[i][k] * m[k][j];
+              
+          
+      return tmp;
   }
 
   // ввод/вывод
   friend istream& operator>>(istream& istr, TDynamicMatrix& v)
   {
+      for (int i = 0;i < sz;++i)
+          istr >> v[i];
+      return istr;
   }
   friend ostream& operator<<(ostream& ostr, const TDynamicMatrix& v)
   {
+      for (int i = 0;i < sz;++i) 
+          ostr << v[i]<<std::endl;
+      return ostr;
   }
 };
 
