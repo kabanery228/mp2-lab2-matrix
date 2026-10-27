@@ -35,12 +35,12 @@ public:
     pMem = new T[sz];
     std::copy(arr, arr + sz, pMem);
   }
-  TDynamicVector(const TDynamicVector& v):size(v.size), pMem(new T[size]){
-      for (int i = 0;i < size;pMem[i] = v.pMem[i++]);
+  TDynamicVector(const TDynamicVector& v):sz(v.sz), pMem(new T[sz]){
+      for (int i = 0;i < sz;pMem[i] = v.pMem[i++]);
   }
   TDynamicVector(TDynamicVector&& v) noexcept
   {
-      size = v.size;
+      sz = v.sz;
       pMem = v.pMem;
       delete v.pMem;
   }
@@ -52,9 +52,9 @@ public:
   {
       if (this != &v) {
           delete[] pMem;
-          size = v.size;
-          pMem = new T[size];
-          std::memcpy(pMem, v.pMem, size);
+          sz = v.sz;
+          pMem = new T[sz];
+          std::memcpy(pMem, v.pMem, sz);
       }
       return *this;
   }
@@ -62,7 +62,7 @@ public:
   {
       if (this != &v) {
           delete[] pMem;
-          size = v.size;
+          sz = v.sz;
           pMem = v.pMem;
           delete v.pMem;
           //std::memcpy(pMem, v.pMem, size);
@@ -96,10 +96,10 @@ public:
   // сравнение
   bool operator==(const TDynamicVector& v) const noexcept
   {
-      if (size != v.size) {
+      if (sz != v.sz) {
           return false;
       }
-      for (int i = 0;i < size;i++)
+      for (int i = 0;i < sz;i++)
           if (pMem[i] != v[i]) 
               return false;
       return true;
@@ -113,48 +113,48 @@ public:
   TDynamicVector operator+(T val)
   {
       TDynamicVector<T> tmp(*this);
-      for (int i = 0;i < size;tmp[i++] += val);
+      for (int i = 0;i < sz;tmp[i++] += val);
       return tmp;
   }
   TDynamicVector operator-(T val)
   {
       TDynamicVector<T> tmp(*this);
-      for (int i = 0;i < size;tmp[i++] -= val);
+      for (int i = 0;i < sz;tmp[i++] -= val);
       return tmp;
   }
   TDynamicVector operator*(T val)
   {
       TDynamicVector<T> tmp(*this);
-      for (int i = 0;i < size;tmp[i++] *= val);
+      for (int i = 0;i < sz;tmp[i++] *= val);
       return tmp;
   }
 
   // векторные операции
   TDynamicVector operator+(const TDynamicVector& v)
   {
-      if (size != v.size) {
+      if (sz != v.sz) {
           throw "different size";
       }
       TDynamicVector<T> tmp(*this);
-      for (int i = 0;i < size;tmp[i] += v[i++]);
+      for (int i = 0;i < sz;tmp[i] += v[i++]);
       return tmp;
   }
   TDynamicVector operator-(const TDynamicVector& v)
   {
-      if (size != v.size) {
+      if (sz != v.sz) {
           throw "different size";
       }
       TDynamicVector tmp(*this);
-      for (int i = 0;i < size;tmp[i] -= v[i++]);
+      for (int i = 0;i < sz;tmp[i] -= v[i++]);
       return tmp;
   }
   T operator*(const TDynamicVector& v) noexcept(noexcept(T()))
   {
-      if (size != v.size) {
+      if (sz != v.sz) {
           throw "different size";
       }
       T tmp = 0;
-      for (int i = 0;i < size;tmp += *this[i] * v[i++]);
+      for (int i = 0;i < sz;tmp += *this[i] * v[i++]);
       return tmp;
   }
 
