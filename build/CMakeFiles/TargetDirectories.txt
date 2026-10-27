@@ -1,0 +1,5 @@
+C:/Users/s25380546/Desktop/mp2-lab2-matrix/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/s25380546/Desktop/mp2-lab2-matrix/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/s25380546/Desktop/mp2-lab2-matrix/build/samples/CMakeFiles/sample_matrix.dir
+C:/Users/s25380546/Desktop/mp2-lab2-matrix/build/gtest/CMakeFiles/gtest.dir
+C:/Users/s25380546/Desktop/mp2-lab2-matrix/build/test/CMakeFiles/test_utmatrix.dir

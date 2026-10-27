@@ -1,11 +1,46 @@
-cmake_minimum_required(VERSION 3.30)
-set(PROJECT_NAME_STR Matrix)
-#project(${PROJECT_NAME_STR} VERSION 1.0)
+cmake_minimum_required(VERSION 3.5)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/gtest)	
+set(PROJECT_NAME matrix)
+project(${PROJECT_NAME} CXX)
 
-#add_executable(${PROJECT_NAME_STR} ${CMAKE_CURRENT_SOURCE_DIR}/samples/*.cpp
-#	${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp)
-file (GLOB PATH_STR ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
-				${CMAKE_CURRENT_SOURCE_DIR}/samples/*.cpp)
-add_executable(${PROJECT_NAME_STR} ${PATH_STR})
+# TODO(Korniakov): not sure if these lines are needed
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
+
+set(MP2_LIBRARY "${PROJECT_NAME}")
+set(MP2_TESTS   "test_${PROJECT_NAME}")
+set(MP2_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(MP2_GTEST   "${CMAKE_CURRENT_SOURCE_DIR}/gtest")
+
+add_library(${MP2_LIBRARY} INTERFACE)
+target_sources(${MP2_LIBRARY} INTERFACE
+	${MP2_INCLUDE}/tmatrix.h
+)
+target_include_directories(${MP2_LIBRARY} INTERFACE
+	${MP2_INCLUDE}
+	${MP2_GTEST}
+)
+include_directories("${MP2_INCLUDE}" gtest)
+
+# BUILD
+add_subdirectory(samples)
+add_subdirectory(gtest)
+add_subdirectory(test)
+
+# REPORT
+message( STATUS "")
+message( STATUS "General configuration for ${PROJECT_NAME}")
+message( STATUS "======================================")
+message( STATUS "")
+message( STATUS "   Configuration: ${CMAKE_BUILD_TYPE}")
+message( STATUS "")
