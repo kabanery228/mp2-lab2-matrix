@@ -5,23 +5,23 @@
 		<BuildType Name="Release"/>
 		<Platform Name="x64"/>
 	</Configurations>
-	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="42b73125-5fab-3e07-b8a9-0bf49b1ebc3c" DefaultStartup="true">
+	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="42920280-f83a-3776-a6c8-47203c9a0ac3" DefaultStartup="true">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
-		<BuildDependency Project="gtest/gtest.vcxproj"/>
-		<BuildDependency Project="samples/sample_matrix.vcxproj"/>
-		<BuildDependency Project="test/test_utmatrix.vcxproj"/>
+		<BuildDependency Project="gtest.vcxproj"/>
+		<BuildDependency Project="sample_matrix.vcxproj"/>
+		<BuildDependency Project="test_utmatrix.vcxproj"/>
 		<Build Solution="Debug|*" Project="false"/>
 		<Build Solution="Release|*" Project="false"/>
 	</Project>
-	<Project Path="ZERO_CHECK.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ded413bc-b88a-3b0d-b64a-9013475ebe53"/>
-	<Project Path="gtest/gtest.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="a252cd0d-da75-384c-b55b-eed3be1680f5">
+	<Project Path="ZERO_CHECK.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="13e276c6-1173-383b-b3dc-24fbe0cd6946"/>
+	<Project Path="gtest.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="54d2d0e8-3222-35f2-a670-2dd02e2adc37">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
-	<Project Path="samples/sample_matrix.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ab0b6405-0440-342e-8a3d-fb0bfef43bb0">
+	<Project Path="sample_matrix.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="976a89e4-84ea-3b07-b9f2-c37b330265c2">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
-	<Project Path="test/test_utmatrix.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="aeca31d9-ce08-3ee1-936e-2dab452b297e">
+	<Project Path="test_utmatrix.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="3eca8e08-122f-36d2-8801-dec0b8b04337">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
-		<BuildDependency Project="gtest/gtest.vcxproj"/>
+		<BuildDependency Project="gtest.vcxproj"/>
 	</Project>
 </Solution>

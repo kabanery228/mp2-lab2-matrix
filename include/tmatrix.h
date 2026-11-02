@@ -25,9 +25,9 @@ protected:
 public:
   TDynamicVector(size_t size = 1) : sz(size)
   {
-    if (sz == 0)
+    if (sz == 0 || sz>MAX_VECTOR_SIZE)
       throw out_of_range("Vector size should be greater than zero");
-    pMem = new T[sz]();// {}; // У типа T д.б. констуктор по умолчанию
+    pMem = new T[sz]{};// {}; // У типа T д.б. констуктор по умолчанию
   }
   TDynamicVector(T* arr, size_t s) : sz(s)
   {
@@ -36,13 +36,14 @@ public:
     std::copy(arr, arr + sz, pMem);
   }
   TDynamicVector(const TDynamicVector& v):sz(v.sz), pMem(new T[sz]){
-      for (int i = 0;i < sz;pMem[i] = v.pMem[i++]);
+      std::copy(v.pMem, v.pMem + sz, pMem);
   }
   TDynamicVector(TDynamicVector&& v) noexcept
   {
       sz = v.sz;
       pMem = v.pMem;
-      delete v.pMem;
+      v.pMem = nullptr;
+      v.sz = 0;
   }
   ~TDynamicVector()
   {
@@ -54,7 +55,7 @@ public:
           delete[] pMem;
           sz = v.sz;
           pMem = new T[sz];
-          std::memcpy(pMem, v.pMem, sz);
+          for (int i = 0; i < sz; ++i) pMem[i] = v.pMem[i];
       }
       return *this;
   }
@@ -64,7 +65,8 @@ public:
           delete[] pMem;
           sz = v.sz;
           pMem = v.pMem;
-          delete v.pMem;
+          v.pMem = nullptr;
+          v.sz = 0;
           //std::memcpy(pMem, v.pMem, size);
       }
       return *this;
@@ -73,6 +75,18 @@ public:
   size_t size() const noexcept { return sz; }
 
   // индексация
+
+  // индексация с контролем
+  T& at(size_t ind)
+  {
+      if (ind >= sz || ind < 0 || ind > MAX_VECTOR_SIZE) throw out_of_range("Index must be greater than zero and lowwer than vector size");
+      return pMem[ind];
+  }
+  const T& at(size_t ind) const
+  {
+      if (ind >= sz || ind < 0 || ind > MAX_VECTOR_SIZE) throw out_of_range("Index must be greater than zero and lowwer than vector size");
+      return pMem[ind];
+  }
   T& operator[](size_t ind)
   {
       return pMem[ind];
@@ -81,18 +95,6 @@ public:
   {
       return pMem[ind];
   }
-  // индексация с контролем
-  T& at(size_t ind)
-  {
-      if (ind >= sz || ind < 0) throw out_of_range("Index must be greater than zero and lowwer than vector size");
-      return pMem[ind];
-  }
-  const T& at(size_t ind) const
-  {
-      if (ind >= sz || ind < 0) throw out_of_range("Index must be greater than zero and lowwer than vector size");
-      return pMem[ind];
-  }
-
   // сравнение
   bool operator==(const TDynamicVector& v) const noexcept
   {
@@ -154,7 +156,7 @@ public:
           throw "different size";
       }
       T tmp = 0;
-      for (int i = 0;i < sz;tmp += *this[i] * v[i++]);
+      for (int i = 0;i < sz;tmp += (*this)[i] * v[i++]);
       return tmp;
   }
 
@@ -189,14 +191,22 @@ class TDynamicMatrix : private TDynamicVector<TDynamicVector<T>>
   using TDynamicVector<TDynamicVector<T>>::pMem;
   using TDynamicVector<TDynamicVector<T>>::sz;
 public:
+    
   TDynamicMatrix(size_t s = 1) : TDynamicVector<TDynamicVector<T>>(s)
   {
+      if (s > MAX_MATRIX_SIZE || s <= 0)
+          throw std::out_of_range("out of range");
+
     for (size_t i = 0; i < sz; i++)
       pMem[i] = TDynamicVector<T>(sz);
   }
-
+  TDynamicMatrix(const TDynamicMatrix& m) :TDynamicMatrix(m.sz){
+      for (int i = 0; i < sz; ++i)
+          pMem[i] = m.pMem[i];
+  }
   using TDynamicVector<TDynamicVector<T>>::operator[];
-
+  using TDynamicVector<TDynamicVector<T>>::size;
+  using TDynamicVector<TDynamicVector<T>>::at;
   // сравнение
   bool operator==(const TDynamicMatrix& m) const noexcept
   {
@@ -253,13 +263,13 @@ public:
   // ввод/вывод
   friend istream& operator>>(istream& istr, TDynamicMatrix& v)
   {
-      for (int i = 0;i < sz;++i)
+      for (int i = 0;i < v.size();++i)
           istr >> v[i];
       return istr;
   }
   friend ostream& operator<<(ostream& ostr, const TDynamicMatrix& v)
   {
-      for (int i = 0;i < sz;++i) 
+      for (int i = 0;i < v.size();++i) 
           ostr << v[i]<<std::endl;
       return ostr;
   }

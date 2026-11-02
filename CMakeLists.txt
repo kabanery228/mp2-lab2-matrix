@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 set(PROJECT_NAME matrix)
 project(${PROJECT_NAME} CXX)
 
-# TODO(Korniakov): not sure if these lines are needed
+# --- Конфигурация сборки ---
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
@@ -17,30 +17,34 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
 
-set(MP2_LIBRARY "${PROJECT_NAME}")
-set(MP2_TESTS   "test_${PROJECT_NAME}")
+# --- Пути ---
 set(MP2_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(MP2_GTEST   "${CMAKE_CURRENT_SOURCE_DIR}/gtest")
 
-add_library(${MP2_LIBRARY} INTERFACE)
-target_sources(${MP2_LIBRARY} INTERFACE
-	${MP2_INCLUDE}/tmatrix.h
+# --- Интерфейсная библиотека с заголовками матрицы ---
+add_library(mp2_library INTERFACE)
+target_sources(mp2_library INTERFACE
+    ${MP2_INCLUDE}/tmatrix.h
 )
-target_include_directories(${MP2_LIBRARY} INTERFACE
-	${MP2_INCLUDE}
-	${MP2_GTEST}
+target_include_directories(mp2_library INTERFACE
+    ${MP2_INCLUDE}
+    ${MP2_GTEST}
 )
-include_directories("${MP2_INCLUDE}" gtest)
 
-# BUILD
-add_subdirectory(samples)
-add_subdirectory(gtest)
-add_subdirectory(test)
+# --- Google Test ---
+add_library(gtest STATIC gtest/gtest-all.cc)
+target_include_directories(gtest PUBLIC ${MP2_GTEST})
+find_package(Threads REQUIRED)
+target_link_libraries(gtest PUBLIC Threads::Threads)
 
-# REPORT
-message( STATUS "")
-message( STATUS "General configuration for ${PROJECT_NAME}")
-message( STATUS "======================================")
-message( STATUS "")
-message( STATUS "   Configuration: ${CMAKE_BUILD_TYPE}")
-message( STATUS "")
+# --- Пример ---
+add_executable(sample_matrix samples/sample_matrix.cpp)
+target_link_libraries(sample_matrix PRIVATE mp2_library)
+
+# --- Тесты ---
+add_executable(test_utmatrix
+    test/test_main.cpp
+    test/test_tmatrix.cpp
+    test/test_tvector.cpp
+)
+target_link_libraries(test_utmatrix PUBLIC gtest mp2_library)
