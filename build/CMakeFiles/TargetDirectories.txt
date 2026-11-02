@@ -1,5 +1,0 @@
-C:/Users/shmepus/Desktop/mp2-lab2-matrix/build/CMakeFiles/gtest.dir
-C:/Users/shmepus/Desktop/mp2-lab2-matrix/build/CMakeFiles/sample_matrix.dir
-C:/Users/shmepus/Desktop/mp2-lab2-matrix/build/CMakeFiles/test_utmatrix.dir
-C:/Users/shmepus/Desktop/mp2-lab2-matrix/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/shmepus/Desktop/mp2-lab2-matrix/build/CMakeFiles/ZERO_CHECK.dir
